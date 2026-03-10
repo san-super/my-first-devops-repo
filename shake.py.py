@@ -1,7 +1,7 @@
-"""Snake game 'Изгиб Питона' on Pygame with OOP."""
+"""Змейка 'Изгиб Питона' на Pygame с использованием ООП."""
 
 import random
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 
 import pygame
 
@@ -28,8 +28,8 @@ class GameObject:
         :param position: Начальная позиция в пикселях (x, y).
         :param body_color: Цвет объекта в формате RGB.
         """
-        self.position: Tuple[int, int] = position
-        self.body_color: Tuple[int, int, int] = body_color
+        self.position = position
+        self.body_color = body_color
 
     def draw(self, surface: pygame.Surface) -> None:
         """
@@ -37,7 +37,7 @@ class GameObject:
 
         Метод должен быть переопределён в дочерних классах.
         """
-        raise NotImplementedError("Subclasses must implement draw() method.")
+        raise NotImplementedError("Дочерние классы должны реализовать метод draw()")
 
 
 class Apple(GameObject):
@@ -56,7 +56,12 @@ class Apple(GameObject):
 
     def draw(self, surface: pygame.Surface) -> None:
         """Отрисовать яблоко на переданной поверхности."""
-        rect = pygame.Rect(self.position[0], self.position[1], CELL_SIZE, CELL_SIZE)
+        rect = pygame.Rect(
+            self.position[0],
+            self.position[1],
+            CELL_SIZE,
+            CELL_SIZE
+        )
         pygame.draw.rect(surface, self.body_color, rect)
 
 
@@ -69,11 +74,11 @@ class Snake(GameObject):
         center_y = (GRID_HEIGHT // 2) * CELL_SIZE
         super().__init__((center_x, center_y), GREEN)
 
-        self.length: int = 1
-        self.positions: List[Tuple[int, int]] = [self.position]
+        self.length = 1
+        self.positions = [self.position]
         # начальное направление — вправо
-        self.direction: Tuple[int, int] = (1, 0)
-        self.next_direction: Optional[Tuple[int, int]] = None
+        self.direction = (1, 0)
+        self.next_direction = None
 
     def get_head_position(self) -> Tuple[int, int]:
         """Вернуть текущую позицию головы змейки."""
@@ -185,8 +190,7 @@ def main() -> None:
     snake = Snake()
     apple = Apple()
 
-    running = True
-    while running:
+    while True:
         # ограничение FPS
         clock.tick(20)
 
